@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 style="text-align: center;margin-bottom: 30px;" >{% block title %} Cell type specific Variant Idenfication in Type 2 Diabetes and CVD {% endblock %}</h2>
+
+    <div style="display: flex; gap: 30px; align-items: flex-start; flex-wrap: wrap;">
+        <!-- Form on the left -->
+        <div style="flex: 1; min-width: 300px;">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="dropdown">Choose Tissue type:</label>
+                    <select name="dropdown" id="dropdown" class="form-control">
+                        <option value="PBMC">PBMC</option>
+                        <option value="Heart">Heart</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="user_input">Input Data (Chromosome number, Position):</label>
+                    <textarea class="form-control" name="user_input" id="user_input" rows="6" placeholder="Example 1,1353322&#10;2,54467843&#10;3,564322234"></textarea>
+                    <button type="button" class="btn btn-link p-0 mt-1" onclick="loadExample()">Load Example</button>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+        <!-- Image on the right -->
+        <div style="flex: 1; min-width: 300px;">
+            <img src="{{ url_for('static', filename='graphical-abstract.png') }}" alt="Graphical Abstract" style="max-width: 100%; height: auto;">
+        </div>
+    </div>
+
+    {% if n_var %}
+        <h3 class="mt-5">Number of variants having celltype specificity: {{ n_var }}</h3>
+    {% endif %}
+
+    {% if df %}
+        <h4 class="mt-5">Cell type specificity of variants</h4>
+        <div>
+            {{ df|safe }}
+        </div>
+    {% endif %}
+
+    {% if err %}
+        <h2 class="mt-5">Input is not valid</h2>
+    {% endif %}
+
+    <script>
+    function loadExample() {
+        document.getElementById('user_input').value = "3,12350056\n10,113030089\n11,2825046";
+    }
+    </script>
+{% endblock %}
+
+
+
+
+
